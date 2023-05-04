@@ -1,6 +1,6 @@
 resource "aws_batch_compute_environment" "default" {
 
-  compute_environment_name = "${local.common_tags.Name}-batch"
+  compute_environment_name = "${local.common_tags.Name}"
 
   compute_resources {
     instance_role = aws_iam_instance_profile.ecs_instance.arn
@@ -40,7 +40,7 @@ resource "aws_batch_compute_environment" "default" {
 
 
 resource "aws_batch_job_queue" "default" {
-  name     = "${local.common_tags.Name}-batch-queue"
+  name     = "${local.common_tags.Name}-queue"
   state    = "ENABLED"
   priority = 1
   compute_environments = [

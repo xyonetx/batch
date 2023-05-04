@@ -12,7 +12,7 @@ terraform {
   backend "s3" {
 
     # Change this to your bucket name 
-    bucket = "xyone-terraform"
+    bucket = "xyonetx-terraform"
     key    = "terraform.state"
     region = "us-east-2"
   }
