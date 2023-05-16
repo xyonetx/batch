@@ -5,13 +5,13 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "private" {
   vpc_id            = aws_vpc.main.id
-  availability_zone = "${data.aws_region.current.name}a"
+  availability_zone = "${data.aws_region.current.name}b"
   cidr_block        = cidrsubnet(aws_vpc.main.cidr_block, 8, 0)
 }
 
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
-  availability_zone       = "${data.aws_region.current.name}a"
+  availability_zone       = "${data.aws_region.current.name}b"
   cidr_block              = cidrsubnet(aws_vpc.main.cidr_block, 8, 10)
   map_public_ip_on_launch = true
 }
