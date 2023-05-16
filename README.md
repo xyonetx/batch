@@ -46,8 +46,11 @@ The instructions below were based on [https://www.nextflow.io/docs/latest/aws.ht
         For example, let's say you ask for 8 processes/jobs, each of which requires 6 vCPUs and 16GB RAM. If your environment is configured to permit 96 vCPUs and you have *not* restricted the instance types, Batch might choose to start a m4.16xlarge EC2 instance (64vCPU, 256GB RAM). Then, Batch will try to run all 8 jobs on that single EC2 instance, each in its own container. Hence, you will need sufficient disk space to accommodate all 8 of those jobs. If these are, e.g. alignments, you need space for 8 genome indexes, etc. (there is no mechanism for sharing a single index). So choose disk size accordingly.
     - You will need SSH access, so you might also choose to associate this new VM with a new or existing key-pair.
 - SSH into the new instance after startup.
-- [Install the AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) on the instance. Note that the nextflow docs perform an installation based on miniconda (which installs a 1.x version of AWS cli). However, the official installation docs work as well, and you get the most recent version. Note the path to the tool (e.g. `/usr/local/bin/aws`) which can be customized during the installation process. 
-
+- [Install the AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) on the instance. Note that the nextflow docs perform an installation based on miniconda (which installs a 1.x version of AWS cli). However, the official installation docs work as well, and you get the most recent version. To avoid conflicts with software distributed in Docker containers, we recommend running the install script as follows (after unzipping the download) which will locate the AWS cli at `/opt/aws-cli/bin/aws`:
+```
+sudo ./aws/install -i /opt/aws-cli -b /opt/aws-cli/bin
+```
+If the AWS cli is installed in "canonical locations" (e.g. under /usr/local/bin or /usr/bin), the Docker container volume mounts (shared with the host machine) can shadow tools under /usr/bin/ etc. in your Docker container and cause conflicts.
 - Create an AMI based off this instance (using console or other method of choice). Note the custom AMI ID which is supplied in your `terraform.tfvars`.
 
 **Important notes:** 
